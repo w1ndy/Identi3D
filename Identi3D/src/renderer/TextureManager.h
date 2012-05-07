@@ -11,14 +11,32 @@
 
 #include "Texture.h"
 
-namespace std
+namespace Identi3D
 {
 
 	class TextureManager
 	{
 	public:
-		// TODO: Add declarations.
+		TextureManager(void) {} ;
+		virtual ~TextureManager(void) {} ;
 
+		/*
+		 * Create texture from a resource.
+		 */
+		Texture *createTexture(const Resource &res) = 0;
+		
+		/*
+		 * Create texture from a file in memory.
+		 */
+		Texture *createTexture(const void *ptr) = 0;
+		
+		/*
+		 * Release specified texture.
+		 */
+		void releaseTexture(Texture &tex) = 0;
+		
+		// TODO: Add declarations.
+	
 	};
 
 }
