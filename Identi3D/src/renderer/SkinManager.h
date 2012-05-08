@@ -70,11 +70,6 @@ namespace Identi3D
 		void compress(void);
 
 		/*
-		 * Reset list limitation.
-		 */
-		void resetLimit(void);
-		
-		/*
 		 * Release all skins.
 		 */
 		void resetSkins(void);

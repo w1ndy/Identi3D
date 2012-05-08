@@ -23,17 +23,17 @@ namespace Identi3D
 		/*
 		 * Create texture from a resource.
 		 */
-		Texture *createTexture(const Resource &res) = 0;
+		virtual Texture *createTexture(const Resource &res) = 0;
 		
 		/*
 		 * Create texture from a file in memory.
 		 */
-		Texture *createTexture(const void *ptr) = 0;
+		virtual Texture *createTexture(const void *ptr) = 0;
 		
 		/*
 		 * Release specified texture.
 		 */
-		void releaseTexture(Texture &tex) = 0;
+		virtual void releaseTexture(Texture &tex) = 0;
 		
 		// TODO: Add declarations.
 	

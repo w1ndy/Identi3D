@@ -31,6 +31,8 @@ namespace Identi3D
 
 	class Material
 	{
+		friend class SkinManager;
+		
 	private:
 		explicit Material(void);
 
