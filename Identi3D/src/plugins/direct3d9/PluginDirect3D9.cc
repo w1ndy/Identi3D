@@ -205,10 +205,14 @@ namespace Identi3D
 
 	void PluginDirect3D9::release(void)
 	{
-		if(_direct_device != NULL)
+		if(_direct_device != NULL) {
 			_direct_device->Release();
-		if(_direct3d != NULL)
+			_direct_device = NULL;
+		}
+		if(_direct3d != NULL) {
 			_direct3d->Release();
+			_direct3d = NULL;
+		}
 	}
 
 	bool PluginDirect3D9::isRunning(void)

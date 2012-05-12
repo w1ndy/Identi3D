@@ -99,8 +99,8 @@ namespace Identi3D
 	{
 	private:
 		OptionElement *_table[OPTIONTREE_HASHTABLE_SIZE];
-
 		OptionElement *_root;
+		bool _modified;
 
 	private:
 		OptionTree(const OptionTree &tree);
@@ -155,6 +155,23 @@ namespace Identi3D
 		 * Check element's existence and fetch the object.
 		 */
 		OptionElement *getElement(const std::wstring &location) const;
+
+		/*
+		 * Reset modification status.
+		 */
+		inline void resetStatus(void)
+		{
+			_modified = false;
+		}
+
+		/*
+		 * Get modification status.
+		 */
+		inline bool getStatus(void) const
+		{
+			return _modified;
+		}
+
 	};
 
 };

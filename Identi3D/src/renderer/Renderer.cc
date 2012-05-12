@@ -3,10 +3,13 @@
 // =================
 //
 
-#include <src/renderer/Renderer.h>
-#include <src/renderer/RenderDevice.h>
-#include <src/renderer/RenderWindow.h>
+#include "Renderer.h"
+#include "RenderDevice.h"
+#include "RenderWindow.h"
+
 #include <src/system/System.h>
+
+#include <src/utils/SettingsManager.h>
 
 namespace Identi3D
 {
@@ -29,6 +32,11 @@ namespace Identi3D
 		_backend_type = RenderBackendType_NoDevice;
 		if(System::instance().getSettingsManager())
 			_global_option = System::instance().getSettingsManager()->getOptionTree();
+	}
+
+	Renderer::~Renderer(void)
+	{
+		releaseDevice();
 	}
 
 	bool Renderer::createDevice(RenderBackendType type)
@@ -72,6 +80,10 @@ namespace Identi3D
 		RELEASERENDERDEVICE releaseRenderDeviceFunc = NULL;
 
 		if(_plugin_handle == NULL || _render_device == NULL) return ;
+
+		if(_render_window) {
+			releaseRenderWindow();
+		}
 		releaseRenderDeviceFunc = (RELEASERENDERDEVICE)GetProcAddress(_plugin_handle, "ReleaseRenderDevice");
 		if(releaseRenderDeviceFunc == NULL) {
 			FreeLibrary(_plugin_handle);
@@ -84,10 +96,6 @@ namespace Identi3D
 		FreeLibrary(_plugin_handle);
 		_plugin_handle = NULL;
 		_backend_type = RenderBackendType_NoDevice;
-		if(_render_window) {
-			_render_window->deassign();
-			_render_window = NULL;
-		}
 	}
 	
 	bool Renderer::createDefaultDevice(void)
@@ -136,6 +144,11 @@ namespace Identi3D
 			return false;
 		}
 
+		if(_render_device->isRunning()) {
+			// TODO: printMessage;
+			return false;
+		}
+
 		if(!_render_device->reloadConfig(_global_option)) {
 			_printMessage(__FILE__, __LINE__, W_RENDERER_LOAD_SETTINGS_FAILURE);
 		}
@@ -154,6 +167,17 @@ namespace Identi3D
 		_render_window = &window;
 		_printVerboseMessage(__FILE__, __LINE__, I_RENDERER_ASSIGN_WINDOW_SUCCESS);
 		return true;
+	}
+		
+	void Renderer::releaseRenderWindow(void)
+	{
+		if(!_render_device || 
+			!_render_device->isRunning() || 
+			!_render_window) return ;
+
+		_render_device->release();
+		_render_window->deassign();
+		_render_window = NULL;
 	}
 
 };

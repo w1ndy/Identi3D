@@ -25,12 +25,13 @@ namespace Identi3D
 
 	RenderWindow::~RenderWindow(void)
 	{
-		release();
+		deassign();
 	}
 
 	bool RenderWindow::assign(RenderDevice &device, const std::wstring &title)
 	{
-		release();
+		if(_window) return false;
+
 		if(!createWindow(device.getWidth(), device.getHeight(), title)) {
 			_printMessage(__FILE__, __LINE__, E_WINDOW_CREATE_FAILURE, GetLastError());
 			return false;
@@ -41,7 +42,7 @@ namespace Identi3D
 		return true;
 	}
 
-	void RenderWindow::release(void)
+	void RenderWindow::deassign(void)
 	{
 		if(_window != NULL) {
 			DestroyWindow(_window);

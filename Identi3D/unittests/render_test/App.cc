@@ -20,37 +20,36 @@ App::App(void)
 
 bool App::init(void)
 {
-	_listener = ntnew Listener;
-	if(_listener == NULL) return false;
+	try
+	{
+		_listener = ntnew Listener;
+		if(_listener == NULL) throw std::exception();
 
-	SystemStartupProperties prop;
-	if(!System::instance().init(L"default.conf", prop)) return false;
+		_window = ntnew RenderWindow;
+		if(_window == NULL) {
+			throw std::exception();
+		}
+
+		SystemStartupProperties prop;
+		if(!System::instance().init(L"default.conf", prop)) 
+			throw std::exception();
 	
-	System::instance().getEventDispatcher()->RegisterEventListener(*_listener);
+		System::instance().getEventDispatcher()->RegisterEventListener(*_listener);
 
-	_renderer = System::instance().getRenderer();
-	if(!_renderer->createDefaultDevice()) {
-		System::instance().release(false);
-		delete _listener;
-		_listener = NULL;
-		return false;
-	}
+		_renderer = System::instance().getRenderer();
+		if(!_renderer->createDefaultDevice()) {
+			throw std::exception();
+		}
 	
-	_window = ntnew RenderWindow;
-	if(_window == NULL) {
-		System::instance().release(false);
-		delete _listener;
-		_listener = NULL;
-		return false;
-	}
-
-	if(!_renderer->assignRenderWindow(*_window, __T("Identi3D Test"))) {
-		System::instance().release(false);
+		if(!_renderer->assignRenderWindow(*_window, __T("Identi3D Test"))) {
+			throw std::exception();
+		}
+	} catch(...) {
+		System::instance().release();
 		delete _window;
 		_window = NULL;
 		delete _listener;
 		_listener = NULL;
-		return false;
 	}
 
 	_device = _renderer->getDevice();
@@ -60,7 +59,7 @@ bool App::init(void)
 
 int App::run(void)
 {
-	_device->setClearColor(0, 0, 1.0f);
+	_device->setClearColor(0.8f, 0.8f, 0.8f);
 	return System::instance().start();
 }
 

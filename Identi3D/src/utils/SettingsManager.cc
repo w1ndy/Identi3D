@@ -10,12 +10,18 @@
 namespace Identi3D
 {
 
+	SettingsManager::~SettingsManager(void)
+	{
+		if(_tree.getStatus()) save();
+	}
+
 	bool SettingsManager::load(const std::wstring &path)
 	{
 		std::wifstream fin;
 		int correct, total;
 		std::wstring name, value;
-
+		
+		_conf_path = path;
 		try{
 			_tree.clean();
 			correct = 0, total = 0;
@@ -23,6 +29,7 @@ namespace Identi3D
 			fin.open(path);
 			if(!fin.is_open()) throw FileOperationFailureException();
 
+			// TODO: parse the file in a more elegant way.
 			while(!fin.eof()) {
 				fin >> name >> value;
 				if(name.length() == 0 || value.length() == 0) continue;
@@ -38,16 +45,22 @@ namespace Identi3D
 			fin.close();
 			return false;
 		}
+		_tree.resetStatus();
 		return true;
 	}
 
-	bool SettingsManager::save(const std::wstring &path)
+	bool SettingsManager::reload(void)
+	{
+		return load(_conf_path);
+	}
+
+	bool SettingsManager::save(void)
 	{
 		std::wofstream fout;
 
 		try
 		{
-			fout.open(path);
+			fout.open(_conf_path);
 			if(!fout.is_open()) throw FileOperationFailureException();
 
 			saveElementRecursively(NULL, fout);
@@ -57,6 +70,7 @@ namespace Identi3D
 			fout.close();
 			return false;
 		}
+		_tree.resetStatus();
 		return true;
 	}
 

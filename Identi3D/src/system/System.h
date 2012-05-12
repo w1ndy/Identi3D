@@ -7,7 +7,7 @@
 #ifndef IDENTI3D_SRC_SYSTEM_SYSTEM_H
 #define IDENTI3D_SRC_SYSTEM_SYSTEM_H
 
-#include <src/identi3d/Identi3D.h>
+#include <src/identi3d/General.h>
 #include <src/utils/Singleton.h>
 
 namespace Identi3D
@@ -17,13 +17,18 @@ namespace Identi3D
 	{
 		bool disable_debug_manager;
 		bool disallow_fallback_config;
+		bool show_config_dialog;
 
 		SystemStartupProperties(void) :
 			disable_debug_manager(false),
-			disallow_fallback_config(false) {};
-		SystemStartupProperties(bool disableDebugManager, bool disallowFallbackConfig) :
+			disallow_fallback_config(false),
+			show_config_dialog(true) {};
+		SystemStartupProperties(bool disableDebugManager,
+								bool disallowFallbackConfig,
+								bool showConfigDialog) :
 			disable_debug_manager(disableDebugManager),
-			disallow_fallback_config(disallowFallbackConfig) {};
+			disallow_fallback_config(disallowFallbackConfig),
+			show_config_dialog(showConfigDialog) {};
 	};
 
 	enum SystemState
@@ -42,15 +47,14 @@ namespace Identi3D
 		System &operator=(System &rhs);
 
 	private:
-		SystemState _state;
+		SystemState		_state;
 
-		DebugManager *_debugger;
+		DebugManager	*_debugger;
 		SettingsManager *_confmgr;
 		EventDispatcher	*_dispatcher;
+		SkinManager		*_skinmgr;
 
-		Renderer *_renderer;
-
-		std::wstring _conf_path;
+		Renderer		*_renderer;
 
 	public:
 
@@ -65,7 +69,7 @@ namespace Identi3D
 		/*
 		 * Release the system and save configuration.
 		 */
-		bool release(bool save_config = true);
+		bool release(void);
 
 		/*
 		 * Create a renderer.
@@ -117,6 +121,14 @@ namespace Identi3D
 		inline EventDispatcher *getEventDispatcher(void) const
 		{
 			return _dispatcher;
+		}
+
+		/*
+		 * Get Skin Manager handle.
+		 */
+		inline SkinManager *getSkinManager(void) const
+		{
+			return _skinmgr;
 		}
 
 		/*

@@ -10,7 +10,7 @@ namespace Identi3D
 {
 
 	OptionTree::OptionTree(DebugManager *debugger) 
-		: _root(NULL), DebugFrame(debugger)
+		: _root(NULL), _modified(false), DebugFrame(debugger)
 	{
 		memset(_table, 0, sizeof(_table));
 	}
@@ -36,6 +36,7 @@ namespace Identi3D
 		OptionElement *p;		// Temporary node of OptionTree.
 		std::wstring location;	// Real location of the node.
 
+		_modified = true;
 		try
 		{
 			if(father == NULL) {
@@ -95,7 +96,8 @@ namespace Identi3D
 	OptionElement *OptionTree::addElement(const std::wstring &location, const std::wstring &value)
 	{
 		OptionElement *p = NULL, *s = NULL;
-
+		
+		_modified = true;
 		try {
 			std::wstring tmploc(location);
 			size_t pos, next;
@@ -134,7 +136,8 @@ namespace Identi3D
 	{
 		OptionElement *p, *s;
 		if(elem == NULL) return ;
-
+		
+		_modified = true;
 		if(elem->child) {
 			s = elem->child;
 			p = s->next;
@@ -151,7 +154,8 @@ namespace Identi3D
 	bool OptionTree::clean(void)
 	{
 		if(_root == NULL) return true;
-
+		
+		_modified = true;
 		try
 		{
 			OptionElement *p, *s;
@@ -179,7 +183,7 @@ namespace Identi3D
 	OptionElement *OptionTree::getElement(const std::wstring &location) const
 	{
 		OptionElement *p;
-
+		
 		p = _table[hashString(location.c_str())];
 		while(p) {
 			if(p->name == location) {
@@ -192,7 +196,8 @@ namespace Identi3D
 	bool OptionTree::setValue(const std::wstring &location, const std::wstring &value)
 	{
 		OptionElement *p;
-
+		
+		_modified = true;
 		try {
 			p = getElement(location);
 			if(p != NULL) {

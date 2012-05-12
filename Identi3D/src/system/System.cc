@@ -3,28 +3,46 @@
 // ===============
 //
 
-#include <src/system/System.h>
-#include <src/system/EventDispatcher.h>
-#include <src/identi3d/IdentiExceptions.h>
-#include <src/system/SettingsWindow.h>
+#include "System.h"
+#include "EventDispatcher.h"
+#include "SettingsWindow.h"
+
+#include <src/renderer/SkinManager.h>
+#include <src/renderer/Renderer.h>
+
+#include <src/utils/DebugManager.h>
+#include <src/utils/SettingsManager.h>
+
+#define _LOG_DEBUG_MESSAGE(verbose, msg, ...) \
+	{ \
+		if(_debugger) \
+			_debugger->print(__FILE__, __LINE__, verbose, msg, __VA_ARGS__); \
+	}
+
+#define _LOG_ERROR(msg, ...) _LOG_DEBUG_MESSAGE(false, msg, __VA_ARGS__)
+#define _LOG_INFO(msg, ...) _LOG_DEBUG_MESSAGE(true, msg, __VA_ARGS__)
+
+#define _ERROR_MSGBOX(msg) MessageBoxA(NULL, msg, "Error", MB_ICONERROR | MB_OK)
+#define _WARNING_MSGBOX(msg) MessageBoxA(NULL, msg, "Warning", MB_ICONWARNING | MB_OK)
+
+#define _DELETE_AND_SET_NULL(ptr) \
+	{ \
+		delete ptr; \
+		ptr = NULL; \
+	}
 
 namespace Identi3D
 {
 
 	System::System(void)
+		: _confmgr(NULL), _dispatcher(NULL), _skinmgr(NULL), _renderer(NULL), 
+		  _state(SystemState_NotInitialized)
 	{
 		// Initialize debugger.
 		_debugger = ntnew DebugManager();
 		if(_debugger == NULL) {
-			MessageBoxA(NULL, E_SYSTEM_CREATE_DEBUGGER_FAILURE, "Error", MB_ICONERROR | MB_OK);
+			_WARNING_MSGBOX(W_SYSTEM_CREATE_DEBUGGER_FAILURE);
 		}
-
-		_confmgr = NULL;
-		_dispatcher = NULL;
-
-		_renderer = NULL;
-
-		_state = SystemState_NotInitialized;
 	}
 
 	System::~System(void)
@@ -38,119 +56,95 @@ namespace Identi3D
 		// Already initialized.
 		if(_state != SystemState_NotInitialized) return true;
 
-		_dispatcher = ntnew EventDispatcher(_debugger);
-		if(_dispatcher == NULL) {
-			if(_debugger)
-				_debugger->print(__FILE__, __LINE__, false, E_SYSTEM_CREATE_DISPATCHER_FAILURE);
-			MessageBoxA(NULL, E_SYSTEM_CREATE_DISPATCHER_FAILURE, "Error", MB_ICONERROR | MB_OK);
-			delete _debugger;
-			_debugger = NULL;
-		}
+		try
+		{
+			_dispatcher = ntnew EventDispatcher(_debugger);
+			if(_dispatcher == NULL) {
+				throw std::runtime_error(E_SYSTEM_CREATE_DISPATCHER_FAILURE);
+			}
 
-		_confmgr = ntnew SettingsManager(_debugger);
-		if(_confmgr == NULL) {
-			if(_debugger)
-				_debugger->print(__FILE__, __LINE__, false, E_SYSTEM_CREATE_CONFMGR_FAILURE);
-			MessageBoxA(NULL, E_SYSTEM_CREATE_CONFMGR_FAILURE, "Error", MB_ICONERROR | MB_OK);
-			delete _dispatcher;
-			_dispatcher = NULL;
-			delete _debugger;
-			_debugger = NULL;
-		}
+			_skinmgr = ntnew SkinManager();
+			if(_skinmgr == NULL) {
+				throw std::runtime_error(E_SYSTEM_CREATE_SKINMGR_FAILURE);
+			}
 
-		// Load configuration.
-		if(config_name) {
-			_conf_path = config_name;		// Make a copy of configuration path.
-			if(_debugger)
-				_debugger->print(__FILE__, __LINE__, true, I_SYSTEM_LOADING_CONFIGURATION, config_name);
+			_confmgr = ntnew SettingsManager(_debugger);
+			if(_confmgr == NULL) {
+				throw std::runtime_error(E_SYSTEM_CREATE_CONFMGR_FAILURE);
+			}
 
-			if(_confmgr->load(config_name)) {
-				// Load successfully.
-				if(_debugger)
-					_debugger->print(__FILE__, __LINE__, true, I_SYSTEM_CONFIGURATION_LOAD_SUCCESS);
-			} else {
-				if(_debugger)
-					_debugger->print(__FILE__, __LINE__, false, W_SYSTEM_CONFIGURATION_LOAD_FAILURE);
-				MessageBoxA(NULL, W_SYSTEM_CONFIGURATION_LOAD_FAILURE, "Warning", MB_ICONWARNING | MB_OK);
-				if(prop.disallow_fallback_config) {
-					// If fallback configuration is not acceptable.
-					if(_debugger)
-						_debugger->print(__FILE__, __LINE__, false, E_FATAL_ERROR);
-					MessageBoxA(NULL, E_FATAL_ERROR, "Error", MB_ICONERROR | MB_OK);
-					delete _confmgr;
-					_confmgr = NULL;
-					delete _dispatcher;
-					_dispatcher = NULL;
-					delete _debugger;
-					_debugger = NULL;
-					return false;
+			// Load configuration.
+			if(config_name) {
+				_LOG_INFO(I_SYSTEM_LOADING_CONFIGURATION, config_name);
+
+				if(_confmgr->load(config_name)) {
+					// Load successfully.
+					_LOG_INFO(I_SYSTEM_CONFIGURATION_LOAD_SUCCESS);
+				} else {
+					_LOG_ERROR(W_SYSTEM_CONFIGURATION_LOAD_FAILURE);
+					_WARNING_MSGBOX(W_SYSTEM_CONFIGURATION_LOAD_FAILURE);
+					if(prop.disallow_fallback_config) {
+						// If fallback configuration is not acceptable.
+						throw std::runtime_error(E_FATAL_ERROR);
+					} else {
+						// Set default options.
+						_confmgr->getOptionTree()->clean();
+					}
 				}
 			}
-		}
 		
-		switch(SettingsWindow::show(*_confmgr->getOptionTree()))
-		{
-		case SettingsWindowResult_Modified:
-			_confmgr->save(_conf_path);
-			break;
-		case SettingsWindowResult_NoModification:
-			break;
-		case SettingsWindowResult_Cancelled:
-		default:
-			delete _confmgr;
-			_confmgr = NULL;
-			delete _dispatcher;
-			_dispatcher = NULL;
-			delete _debugger;
-			_debugger = NULL;
-			return false;
-		}
+			if(prop.show_config_dialog) {
+				switch(SettingsWindow::show(*_confmgr->getOptionTree()))
+				{
+				case SettingsWindowResult_Modified:
+					_confmgr->save();
+					break;
+				case SettingsWindowResult_NoModification:
+					break;
+				case SettingsWindowResult_Cancelled:
+				default:
+					throw std::runtime_error(W_SYSTEM_USERS_CANCELLED);
+				}
+			}
 
-		if(NULL == createRenderer()) {
-			if(_debugger)
-				_debugger->print(__FILE__, __LINE__, false, E_FATAL_ERROR);
-			MessageBoxA(NULL, E_FATAL_ERROR, "Error", MB_ICONERROR | MB_OK);
-			delete _confmgr;
-			_confmgr = NULL;
-			delete _dispatcher;
-			_dispatcher = NULL;
-			delete _debugger;
-			_debugger = NULL;
+			if(NULL == createRenderer()) {
+				throw std::runtime_error(E_SYSTEM_CREATE_RENDERER_FAILURE);
+			}
+		} catch(std::exception &e) {
+			_LOG_ERROR(e.what());
+			_ERROR_MSGBOX(e.what());
+			releaseRenderer();
+			_DELETE_AND_SET_NULL(_confmgr);
+			_DELETE_AND_SET_NULL(_skinmgr);
+			_DELETE_AND_SET_NULL(_dispatcher);
 			return false;
 		}
 
 		_state = SystemState_Idle;
-		if(_debugger)
-			_debugger->print(__FILE__, __LINE__, true, I_SYSTEM_CREATE_SUCCESS);
+		_LOG_INFO(I_SYSTEM_CREATE_SUCCESS);
 
 		return true;
 	}
 
-	bool System::release(bool save_config)
+	bool System::release()
 	{
 		// System not initialized.
 		if(_state == SystemState_NotInitialized) return true;
 		
-		_state = SystemState_NotInitialized;
-		if(_debugger)
-			_debugger->print(__FILE__, __LINE__, true, I_SYSTEM_RELEASING);
 
 		// Stop listener.
 		if(_state == SystemState_Listening) kill();
 
 		// Kill renderer.
 		releaseRenderer();
-
-		// Write configuration back.
-		if(save_config)	{
-			_confmgr->save(_conf_path);
-		}
-		delete _confmgr;
-		_confmgr = NULL;
-
-		// Kill event dispatcher.
-		delete _dispatcher;
-		_dispatcher = NULL;
+		
+		// Release modules
+		_DELETE_AND_SET_NULL(_confmgr);
+		_DELETE_AND_SET_NULL(_skinmgr);
+		_DELETE_AND_SET_NULL(_dispatcher);
+		
+		_state = SystemState_NotInitialized;
+		_LOG_INFO(I_SYSTEM_RELEASED);
 
 		return S_OK;
 	}
@@ -207,8 +201,8 @@ namespace Identi3D
 
 	void System::kill(void)
 	{
-		if(_renderer && _renderer->getWindow())
-			_renderer->getWindow()->release();
+		if(_renderer)
+			_renderer->releaseRenderWindow();
 	}
 
 };

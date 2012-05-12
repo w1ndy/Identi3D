@@ -47,20 +47,12 @@ namespace Identi3D
 		/*
 		 * Unload render device.
 		 */
-		inline void deassign(void) 
-		{
-			release();
-		}
+		void deassign(void);
 
 	public:
 
 		RenderWindow(DebugManager *debugger = NULL);
 		~RenderWindow(void);
-
-		/*
-		 * Release the window and clean up.
-		 */
-		void release();
 
 		/*
 		 * Message processor.

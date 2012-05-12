@@ -18,16 +18,20 @@
 #define E_FILE_OPEN_FAILURE					"Unable to open \'%S\'."
 
 // System
-#define I_SYSTEM_LOADING_CONFIGURATION		"Loading configuration from %S..."
-#define I_SYSTEM_CONFIGURATION_LOAD_SUCCESS "Configuration load completed."
-#define W_SYSTEM_CONFIGURATION_LOAD_FAILURE	"Unable to load configuration."
-#define I_SYSTEM_CREATE_SUCCESS				"System has been initialized successfully."
-#define I_SYSTEM_RELEASING					"Releasing system..."
-#define E_SYSTEM_CREATE_RENDERER_FAILURE	"Failed to create a renderer."
-#define E_SYSTEM_CREATE_DEBUGGER_FAILURE	"Failed to create a debugger."
-#define E_SYSTEM_CREATE_DISPATCHER_FAILURE	"Failed to create a event dispatcher."
-#define E_SYSTEM_CREATE_CONFMGR_FAILURE		"Failed to create a settings manager."
-#define E_SYSTEM_LOAD_RESOURCES_FAILURE		"Failed to load resources."
+#define I_SYSTEM_LOADING_CONFIGURATION		"SYSTEM: Loading configuration from %S..."
+#define I_SYSTEM_CONFIGURATION_LOAD_SUCCESS "SYSTEM: Configuration load completed."
+#define I_SYSTEM_CREATE_SUCCESS				"SYSTEM: System has been initialized successfully."
+#define I_SYSTEM_RELEASED					"SYSTEM: System released."
+
+#define W_SYSTEM_CREATE_DEBUGGER_FAILURE	"SYSTEM: Failed to create a debugger. Debugger functions will be disabled."
+#define W_SYSTEM_CONFIGURATION_LOAD_FAILURE	"SYSTEM: Unable to load configuration."
+#define W_SYSTEM_USERS_CANCELLED			"SYSTEM: Users cancelled config dialog. Abort now."
+
+#define E_SYSTEM_CREATE_SKINMGR_FAILURE		"SYSTEM: Failed to create a skin manager."
+#define E_SYSTEM_CREATE_DISPATCHER_FAILURE	"SYSTEM: Failed to create a event dispatcher."
+#define E_SYSTEM_CREATE_CONFMGR_FAILURE		"SYSTEM: Failed to create a settings manager."
+#define E_SYSTEM_LOAD_RESOURCES_FAILURE		"SYSTEM: Failed to load resources."
+#define E_SYSTEM_CREATE_RENDERER_FAILURE	"SYSTEM: Failed to create a renderer."
 
 // Settings Manager
 #define I_SETTINGS_LOAD_COMPLETED			"Settings load complete. Source: %S, %d/%d accepted."

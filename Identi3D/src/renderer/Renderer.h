@@ -44,7 +44,7 @@ namespace Identi3D
 	public:
 
 		Renderer(DebugManager *debugger = NULL);
-		~Renderer(void) { releaseDevice(); }
+		~Renderer(void);
 
 		/*
 		 * Create a render device.
@@ -65,6 +65,11 @@ namespace Identi3D
 		 * Assign a render target for the render device.
 		 */
 		bool assignRenderWindow(RenderWindow &window, const std::wstring &window_title);
+
+		/*
+		 * Release the render target from render device.
+		 */
+		void releaseRenderWindow(void);
 
 		/*
 		 * Get current render device.

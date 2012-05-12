@@ -20,6 +20,7 @@ namespace Identi3D
 
 	private:
 		OptionTree _tree;
+		std::wstring _conf_path;
 
 	private:
 		SettingsManager(SettingsManager &mgr);
@@ -31,7 +32,7 @@ namespace Identi3D
 	public:
 		SettingsManager(DebugManager *debugger = NULL) 
 			: DebugFrame(debugger), _tree(debugger) {} ;
-		~SettingsManager(void) {} ;
+		~SettingsManager(void);
 
 		/*
 		 * Load configuration from file.
@@ -39,9 +40,14 @@ namespace Identi3D
 		bool load(const std::wstring &path);
 
 		/*
-		 * Write configuration to file.
+		 * Reload configuration from current file.
 		 */
-		bool save(const std::wstring &path);
+		bool reload(void);
+
+		/*
+		 * Write configuration to current file.
+		 */
+		bool save(void);
 
 		/*
 		 * Get the handle of global OptionTree.
