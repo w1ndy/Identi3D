@@ -17,6 +17,11 @@ namespace Identi3D {
 	size_t DebugManager::_allocated_memory = 0;
 	bool DebugManager::_is_valid = false;
 
+	DebugManager::DebugManager(void)
+		: _prevbuf(NULL), _flag(DEBUGMANAGER_DEFAULTFLAG)
+	{
+	}
+	
 	DebugManager::~DebugManager(void)
 	{
 		try

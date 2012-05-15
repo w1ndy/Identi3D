@@ -27,7 +27,7 @@ namespace Identi3D
 			correct = 0, total = 0;
 
 			fin.open(path);
-			if(!fin.is_open()) throw FileOperationFailureException();
+			if(!fin.is_open()) throw std::runtime_exception(E_FILE_OPEN_FAILURE);
 
 			// TODO: parse the file in a more elegant way.
 			while(!fin.eof()) {
@@ -40,7 +40,7 @@ namespace Identi3D
 			fin.close();
 			_printVerboseMessage(__FILE__, __LINE__, I_SETTINGS_LOAD_COMPLETED, path, correct, total);
 		} catch(std::exception &e) {
-			_printException(__FILE__, __LINE__, e);
+			_printMessage(__FILE__, __LINE__, e.what());
 			_tree.clean();
 			fin.close();
 			return false;
@@ -58,18 +58,15 @@ namespace Identi3D
 	{
 		std::wofstream fout;
 
-		try
-		{
-			fout.open(_conf_path);
-			if(!fout.is_open()) throw FileOperationFailureException();
-
-			saveElementRecursively(NULL, fout);
-			fout.close();
-		} catch(std::exception &e) {
-			_printException(__FILE__, __LINE__, e);
+		fout.open(_conf_path);
+		if(!fout.is_open()) {
+			_printMessage(__FILE__, __LINE__, E_FILE_OPEN_FAILURE);
 			fout.close();
 			return false;
 		}
+
+		saveElementRecursively(NULL, fout);
+		fout.close();
 		_tree.resetStatus();
 		return true;
 	}
@@ -82,7 +79,7 @@ namespace Identi3D
 			if(iter->child) {
 				saveElementRecursively(iter.get(), fout);
 			} else {
-				fout << iter->name << TEXT(" ") << iter->value << std::endl;
+				fout << iter->name << L" " << iter->value << std::endl;
 			}
 			++iter;
 		}

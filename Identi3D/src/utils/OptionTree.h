@@ -25,7 +25,7 @@ namespace Identi3D
 	/*
 	 * Group value specified for OptionElement.
 	 */
-	const std::wstring OPTIONTREE_GROUPVALUE = __T("");
+	const std::wstring OPTIONTREE_GROUPVALUE = L"";
 
 	struct OptionElement
 	{
@@ -37,7 +37,7 @@ namespace Identi3D
 		struct OptionElement *father;
 		struct OptionElement *next;
 		struct OptionElement *table_next;
-
+		
 #if defined (_MEMORY_LEAK_DETECTION)
 		static void *operator new(size_t size)
 		{
@@ -81,15 +81,16 @@ namespace Identi3D
 		OptionIterator(void) : _ptr(NULL) {} ;
 		OptionIterator(OptionElement *elem) : _ptr(elem) {} ;
 		OptionIterator(const OptionIterator &iter) : _ptr(iter._ptr) {} ;
-		~OptionIterator(void) {} ;
+		virtual ~OptionIterator(void) {} ;
 		
-		inline OptionIterator &operator ++() { if(_ptr) _ptr = _ptr->next; return *this; }
-		inline OptionIterator operator ++(int) { OptionIterator tmp(*this); operator++(); return tmp; }
-		inline bool operator ==(const OptionIterator &iter) const { return _ptr == iter._ptr; }
-		inline bool operator !=(const OptionIterator &iter) const { return _ptr != iter._ptr; }
-		inline bool operator !(void) const { return _ptr == NULL; }
-		inline const OptionElement *operator ->(void) const { return _ptr; }
-		inline const OptionElement &operator *(void) const { return *_ptr; }
+		inline OptionIterator &operator++() { if(_ptr) _ptr = _ptr->next; return *this; }
+		inline OptionIterator operator++(int) { OptionIterator tmp(*this); operator++(); return tmp; }
+		inline bool operator==(const OptionIterator &iter) const { return _ptr == iter._ptr; }
+		inline bool operator!=(const OptionIterator &iter) const { return _ptr != iter._ptr; }
+		inline bool operator!(void) const { return _ptr == NULL; }
+		inline OptionIterator &operator=(const OptionIterator &iter) { _ptr = iter._ptr; return *this; }
+		inline const OptionElement *operator->(void) const { return _ptr; }
+		inline const OptionElement &operator*(void) const { return *_ptr; }
 
 		inline const OptionElement *get(void) const { return _ptr; }
 		inline bool end(void) const { return _ptr == NULL; }

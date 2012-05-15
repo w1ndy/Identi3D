@@ -45,13 +45,13 @@ namespace Identi3D
 			} else {
 				// Otherwise assign the location to name field.
 				location = father->name;
-				location.push_back(__T('.'));
+				location.push_back(L'.');
 				location += name;
 			}
 
 			p = getElement(location);		// If already exists, assign the value and return.
 			if(p != NULL) {
-				_printVerboseMessage(__FILE__, __LINE__, W_OPTION_ELEMENT_ALREADY_EXISTS, name);
+				_printVerboseMessage(__FILE__, __LINE__, W_OPTION_ELEMENT_ALREADY_EXISTS, name.c_str());
 				p->value = value;
 				return p;
 			}
@@ -202,7 +202,7 @@ namespace Identi3D
 			p = getElement(location);
 			if(p != NULL) {
 				p->value = value;
-				_printVerboseMessage(__FILE__, __LINE__, I_OPTION_VALUE_MODIFIED, p->name, value);
+				_printVerboseMessage(__FILE__, __LINE__, I_OPTION_VALUE_MODIFIED, p->name.c_str(), value.c_str());
 			}
 		} catch(std::exception &e) {
 			_printException(__FILE__, __LINE__, e);
@@ -227,7 +227,7 @@ namespace Identi3D
 			_printException(__FILE__, __LINE__, e);
 		}
 
-		return std::wstring(__T(""));
+		return L"";
 	}
 
 };

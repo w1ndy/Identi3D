@@ -21,8 +21,18 @@ namespace Identi3D
 	public:
 
 		DebugFrame(DebugManager *debugger = NULL) : _debugger(debugger) {} ;
+		DebugFrame(const DebugFrame &frame) : _debugger(frame._debugger) {} ;
 		virtual ~DebugFrame(void) = 0;
 
+		/*
+		 * Assignment operator
+		 */
+		inline DebugFrame &operator=(const DebugFrame &frame)
+		{
+			if((&frame) != this) _debugger = frame._debugger;
+			return (*this);
+		}
+		
 #if defined(_MEMORY_LEAK_DETECTION)
 		/*
 		 * Override object's new operator.

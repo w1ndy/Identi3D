@@ -58,7 +58,7 @@ namespace Identi3D {
 	{
 	public:
 
-		DebugManager(void) throw () : _prevbuf(NULL), _flag(DEBUGMANAGER_DEFAULTFLAG) {} ;
+		DebugManager(void) throw ();
 		~DebugManager(void) throw ();
 
 		/*
