@@ -12,6 +12,12 @@
 #include <src/renderer/RenderDevice.h>
 #include <src/utils/DebugFrame.h>
 
+#if defined (_DEBUG)
+# if !defined (D3D_DEBUG_INFO)
+#  define D3D_DEBUG_INFO	// Enable Direct3D9 debug output.
+# endif // !defined (D3D_DEBUG_INFO)
+#endif // defined (_DEBUG)
+
 #include <d3d9.h>
 
 namespace Identi3D

@@ -139,6 +139,11 @@ namespace Identi3D
 			return _state;
 		}
 
+		inline bool isInitialized(void) const
+		{
+			return (_state != SystemState_NotInitialized);
+		}
+
 	};
 
 };

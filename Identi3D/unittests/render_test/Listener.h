@@ -13,8 +13,6 @@
 class Listener : public Identi3D::EventListener
 {
 public:
-	void onRendering(UINT timeSinceLastFrame);
-	void onKeyPressed(Identi3D::KeyType key, UINT repeat_times, UINT timeSinceLastFrame);
 };
 
 #endif // UNITTESTS_RENDERTEST_LISTENER_H

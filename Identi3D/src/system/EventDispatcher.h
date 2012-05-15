@@ -9,12 +9,16 @@
 
 #include <src/identi3d/General.h>
 #include <src/utils/DebugFrame.h>
+#include "EventListener.h"
 
 namespace Identi3D
 {
 
 	enum Event
 	{
+		Event_Start			= 0x00000010,
+		Event_Terminate		= 0x00000020,
+
 		Event_Rendering		= 0x00000001,
 		Event_KeyPressed	= 0x00000002,
 
@@ -36,11 +40,14 @@ namespace Identi3D
 	class EventDispatcher : public DebugFrame
 	{
 	private:
-		EventListenerList _hook;
+		EventListenerList _hooks;
 
 	private:
 		EventDispatcher(EventDispatcher &dispatcher);
 		EventDispatcher &operator=(EventDispatcher &rhs);
+
+	private:
+		bool _dispatch(const EventPacket &packet, EventResult &result);
 
 	public:
 		EventDispatcher(DebugManager *debugger = NULL);
@@ -49,8 +56,8 @@ namespace Identi3D
 		bool RegisterEventListener(EventListener &listener);
 		void UnregisterEventListener(EventListener &listener);
 
-		int postWindowMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
-		int postEvent(Event e, DWORD param1 = NULL, DWORD param2 = NULL);
+		EventResult postWindowMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+		EventResult postEvent(Event e, DWORD param1 = NULL, DWORD param2 = NULL);
 	};
 
 };

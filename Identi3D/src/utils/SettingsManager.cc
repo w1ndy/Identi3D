@@ -27,7 +27,7 @@ namespace Identi3D
 			correct = 0, total = 0;
 
 			fin.open(path);
-			if(!fin.is_open()) throw std::runtime_exception(E_FILE_OPEN_FAILURE);
+			if(!fin.is_open()) throw std::runtime_error(E_FILE_OPEN_FAILURE);
 
 			// TODO: parse the file in a more elegant way.
 			while(!fin.eof()) {

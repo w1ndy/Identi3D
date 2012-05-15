@@ -201,8 +201,11 @@ namespace Identi3D
 
 	void System::kill(void)
 	{
-		if(_renderer)
-			_renderer->releaseRenderWindow();
+		if(isInitialized()) {
+			_dispatcher->postEvent(Event_Terminate);
+		}
+		//if(_renderer)
+		//	_renderer->releaseRenderWindow();
 	}
 
 };

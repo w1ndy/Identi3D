@@ -15,68 +15,88 @@ namespace Identi3D
 	{
 	}
 
+	bool EventDispatcher::_dispatch(const EventPacket &packet, EventResult &result)
+	{
+		EventListenerList::iterator iter;
+		for(iter = _hooks.begin(); iter != _hooks.end(); ++iter) {
+			// Execute processors for each dispatcher.
+			// Messages is only valid for first procedure processing them.
+			if((*iter)->processRawPacket(packet, result)) return true;
+		}
+		// 'false' indicates message ignorance.
+		result = EventResult_Abandoned;
+		return false;
+	}
+
 	bool EventDispatcher::RegisterEventListener(EventListener &listener)
 	{
-		_hook.push_back(&listener);
+		// Append listener pointer to the list.
+		_hooks.push_back(&listener);
 		return true;
 	}
 
 	void EventDispatcher::UnregisterEventListener(EventListener &listener)
 	{
-		_hook.erase(std::find(_hook.begin(), _hook.end(), &listener));
+		// find and delete the handle.
+		_hooks.erase(std::find(_hooks.begin(), _hooks.end(), &listener));
 	}
 
-	int EventDispatcher::postWindowMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+	EventResult EventDispatcher::postWindowMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	{
-		EventPacket packet;
 		PAINTSTRUCT ps;
-		int retval;
-		bool abandoned;
 		HDC hdc;
+
+		EventPacket packet;
+		EventResult retval;
 
 		switch(msg)
 		{
 		case WM_KEYDOWN:
+			// Fill the packet information.
 			packet.event_message = Event_KeyPressed;
-			packet.param1 = wparam;
-			packet.param2 = lparam & 0xffff;
+			packet.param1 = wparam;				// WPARAM indicates key type.
+			packet.param2 = lparam & 0xffff;	// Lower part of LPARAM indicates repeat times.
+
+			// TODO: substitute this parameters with data from Timeline
 			packet.time_since_last_frame = 0;
 			break;
 		case WM_PAINT:
+			// Ignore window paint message.
 			hdc = BeginPaint(hwnd, &ps);
 			EndPaint(hwnd, &ps);
 			return 0;
 		case WM_DESTROY:
+			// DO NOT SEND terminate MESSAGE HERE
+			// WHICH MAY LEADS TO DEAD LOOP.
 			PostQuitMessage(0);
 			return 0;
 		default:
+			// Redirect the rest of unprocessed messages.
 			return DefWindowProc(hwnd, msg, wparam, lparam);
 		}
 
-		abandoned = true;
-		retval = 0;
-		for(EventListenerList::iterator iter = _hook.begin(); iter != _hook.end(); ++iter) {
-			if((*iter)->processRawPacket(packet, retval)) abandoned = false;
-		}
+		// Dispatch the message.
+		if(_dispatch(packet, retval)) return retval;
 
-		if(abandoned) return DefWindowProc(hwnd, msg, wparam, lparam);
-		return retval;
+		// Else if not processed:
+		return DefWindowProc(hwnd, msg, wparam, lparam);
 	}
 
-	int EventDispatcher::postEvent(Event e, DWORD param1, DWORD param2)
+	EventResult EventDispatcher::postEvent(Event e, DWORD param1, DWORD param2)
 	{
 		EventPacket packet;
-		int retval;
+		EventResult retval;
 
+		// Fill EventPacket structure.
 		packet.event_message = e;
 		packet.param1 = param1;
 		packet.param2 = param2;
+
+		// TODO: substitute this parameters with data from Timeline
 		packet.time_since_last_frame = 0;
 
-		retval = 0;
-		for(EventListenerList::iterator iter = _hook.begin(); iter != _hook.end(); ++iter) {
-			(*iter)->processRawPacket(packet, retval);
-		}
+		// Dispatch the message.
+		_dispatch(packet, retval);
 		return retval;
 	}
 

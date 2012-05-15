@@ -25,7 +25,12 @@ namespace Identi3D
 
 	RenderWindow::~RenderWindow(void)
 	{
-		deassign();
+		// Deleting before deassignment is a dangerous operation.
+		// Force to release render device first.
+		if(isAssigned()) {
+			_render_device->release();
+			deassign();
+		}
 	}
 
 	bool RenderWindow::assign(RenderDevice &device, const std::wstring &title)

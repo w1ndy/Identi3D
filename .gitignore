@@ -62,3 +62,6 @@ Identi3D/models*
 
 # KDiff Backups
 *.orig
+
+# Other Stuffs
+Identi3D-gcc*

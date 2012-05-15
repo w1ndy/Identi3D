@@ -27,12 +27,12 @@ namespace Identi3D
 		/*
 		 * Generate a random class name string.
 		 */
-		void	generateClassName(void);
+		void generateClassName(void);
 
 		/*
 		 * Register the class of window.
 		 */
-		void	registerClass(void);
+		void registerClass(void);
 
 		/*
 		 * Create window with specified attributes.
@@ -69,6 +69,11 @@ namespace Identi3D
 		 * Get assigned render device.
 		 */
 		RenderDevice *getRenderDevice(void) { return _render_device; }
+
+		/*
+		 * Get assignment state.
+		 */
+		bool isAssigned(void) const { return (_render_device != NULL); }
 
 	};
 
