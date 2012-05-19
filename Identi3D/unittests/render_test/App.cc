@@ -44,6 +44,15 @@ bool App::init(void)
 		if(!_renderer->assignRenderWindow(*_window, __T("Identi3D Test"))) {
 			throw std::exception();
 		}
+
+		// Test code:
+#if defined (PLUGINSMANAGER_TEST)
+		_plugmgr = ntnew PluginsManager(System::instance().getSettingsManager()->getOptionTree(),
+			System::instance().getDebugManager());
+		if(!_plugmgr) throw std::exception();
+		_plugmgr->loadAllPlugin();
+#endif // PLUGINSMANAGER_TEST
+
 	} catch(...) {
 		System::instance().release();
 		delete _window;
@@ -65,6 +74,10 @@ int App::run(void)
 
 App::~App(void)
 {
+#if defined (PLUGINSMANAGER_TEST)
+	delete _plugmgr;
+#endif // PLUGINSMANAGER_TEST
+
 	System::instance().release();
 	delete _window;
 	delete _listener;

@@ -27,6 +27,9 @@
     <ClCompile Include="SettingsWindow.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PluginsManager.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EventDispatcher.h">
@@ -39,6 +42,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SettingsWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PluginsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PluginTemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

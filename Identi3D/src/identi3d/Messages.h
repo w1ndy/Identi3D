@@ -62,6 +62,11 @@
 
 #define E_START_RENDERING_FAILURE			("Failed to start rendering.")
 
+// Plugin System
+#define E_PS_PLUGINS_ALREADY_LOADED			"Plugins already loaded."
+#define E_PS_NO_PLUGIN_LIST_FOUND			"No plugin list found in location: %S"
+#define I_PS_PLUGIN_LOAD_STATS				"Plugin Stats: %d/%d entries loaded."
+
 // Direct3D9 Settings Manager
 #define E_D3D9_OPTION_GROUP_CREATE_FAILED	("Failed to create option group \"%S\"")
 #define E_D3D9_OPTION_WRITE_FAILED			("Failed to write one or more options.")

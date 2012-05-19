@@ -38,7 +38,7 @@ namespace Identi3D
 			}
 
 			fin.close();
-			_printVerboseMessage(__FILE__, __LINE__, I_SETTINGS_LOAD_COMPLETED, path, correct, total);
+			_printVerboseMessage(__FILE__, __LINE__, I_SETTINGS_LOAD_COMPLETED, path.c_str(), correct, total);
 		} catch(std::exception &e) {
 			_printMessage(__FILE__, __LINE__, e.what());
 			_tree.clean();

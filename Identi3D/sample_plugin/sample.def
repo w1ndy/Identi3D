@@ -1,0 +1,10 @@
+;
+; File: sample.debug.def
+; ======================
+; Module definition file for debug mode.
+;
+
+LIBRARY "sample_plugin.dll"
+EXPORTS
+	CreatePlugin
+	DestroyPlugin

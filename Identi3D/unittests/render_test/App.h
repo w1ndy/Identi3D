@@ -9,8 +9,11 @@
 
 #include <src/identi3d/Identi3D.h>
 #include <src/system/EventListener.h>
+#include <src/system/PluginsManager.h>
 
 #include "Listener.h"
+
+#define PLUGINSMANAGER_TEST
 
 class App
 {
@@ -21,6 +24,10 @@ private:
 	Identi3D::RenderWindow	*_window;
 
 	Listener *_listener;
+
+#if defined (PLUGINSMANAGER_TEST)
+	Identi3D::PluginsManager *_plugmgr;
+#endif
 
 public:
 	App(void);
