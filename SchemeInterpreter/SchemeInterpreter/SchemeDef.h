@@ -1,0 +1,48 @@
+//
+// File: SchemeDef.h
+// =================
+//
+
+#ifndef __SCHEMEDEF_H__
+#define __SCHEMEDEF_H__
+
+
+// SIZE
+#define VARIABLE_SIZE_MAX		0x0000FFFF
+#define VARIABLE_SIZE_MASK		0xFFFF0000
+
+// VARIABLE TYPES
+typedef unsigned long VARIABLE_TYPE;
+#define VARIABLE_TYPE_MASK		0x0000F000
+#define VARIABLE_TYPE_INTEGER	0x00001000
+#define VARIABLE_TYPE_FLOAT		0x00002000
+#define VARIABLE_TYPE_SYMBOL	0x00003000
+#define VARIABLE_TYPE_PAIR		0x00004000
+#define VARIABLE_TYPE_CUSTOM	0x00005000
+
+// REFERENCE COUNT
+#define VARIABLE_REFCOUNT_MAX	0x00000FFF
+#define VARIABLE_REFCOUNT_MASK	VARIABLE_REFCOUNT_MAX
+
+// MEMORY ADDRESS
+typedef unsigned short MEMORY_ADDR;
+#define MEMORY_ADDR_INVALID		0x0000
+#define MEMORY_ADDR_MAX			0xFFFF
+
+// PAIR DEFINITION
+typedef unsigned long SCHEME_PAIR;
+#define SCHEME_PAIR_FORMER_ADDR	0xFFFF0000
+#define SCHEME_PAIR_LATTER_ADDR	0x0000FFFF
+
+// OTHER
+#define MEMORYPOOL_SIZE			0xFFFE
+#define SCHEME_SYMBOL_MAX_LEN	256
+#define SCHEME_SYMBOL_UNNAMED	L"*noname*"
+
+struct Variable
+{
+	union { void *ptr; unsigned long data; };
+	unsigned long info;
+};
+
+#endif // __SCHEMEDEF_H__
