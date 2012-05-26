@@ -1,15 +1,15 @@
 //
-// File: PluginsManager.cc
+// File: PluginManager.cc
 // =======================
 //
 
-#include "PluginsManager.h"
+#include "PluginManager.h"
 #include "System.h"
 
 namespace Identi3D
 {
 
-	PluginsManager::PluginsManager(OptionTree *global_conf, DebugManager *debugger)
+	PluginManager::PluginManager(OptionTree *global_conf, DebugManager *debugger)
 		: DebugFrame(debugger)
 	{
 		if(!global_conf || 
@@ -18,7 +18,7 @@ namespace Identi3D
 		}
 	}
 
-	PluginsManager::~PluginsManager(void)
+	PluginManager::~PluginManager(void)
 	{
 		DESTROYPLUGINFUNC func;
 		std::vector<PluginInfo>::iterator iter;
@@ -31,7 +31,7 @@ namespace Identi3D
 		}
 	}
 
-	bool PluginsManager::loadAllPlugin(void)
+	bool PluginManager::loadAllPlugin(void)
 	{
 		if(_plugins.size() != 0) {
 			_printMessage(__FILE__, __LINE__, E_PS_PLUGINS_ALREADY_LOADED);
@@ -75,7 +75,7 @@ namespace Identi3D
 		return true;
 	}
 
-	void PluginsManager::unloadAllPlugin(void)
+	void PluginManager::unloadAllPlugin(void)
 	{
 		DESTROYPLUGINFUNC func;
 		std::vector<PluginInfo>::iterator iter;
@@ -89,13 +89,13 @@ namespace Identi3D
 		_plugins.clear();
 	}
 
-	bool PluginsManager::reloadAllPlugin(void)
+	bool PluginManager::reloadAllPlugin(void)
 	{
 		unloadAllPlugin();
 		return loadAllPlugin();
 	}
 
-	void PluginsManager::reloadConfig(OptionTree *global_conf)
+	void PluginManager::reloadConfig(OptionTree *global_conf)
 	{
 		if(!global_conf || 
 			(_location = global_conf->getValue(L"System.PluginsLocation")).length() == 0) {
@@ -103,7 +103,7 @@ namespace Identi3D
 		}
 	}
 
-	bool PluginsManager::isPluginLoaded(const std::wstring &name)
+	bool PluginManager::isPluginLoaded(const std::wstring &name)
 	{
 		std::vector<PluginInfo>::iterator iter;
 		for(iter = _plugins.begin(); iter != _plugins.end(); ++iter) {

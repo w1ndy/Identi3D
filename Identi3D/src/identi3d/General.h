@@ -167,7 +167,7 @@ namespace Identi3D
 	class Skin;
 	class SkinManager;
 
-	class Direct3D9SettingsManager;
+	class Direct3D9SettingManager;
 	class PluginDirect3D9;
 
 	class CpuInfo;
@@ -177,7 +177,7 @@ namespace Identi3D
 	class Resource;
 	class ResourceManager;
 	class ResourcePool;
-	class SettingsManager;
+	class SettingManager;
 
 };
 

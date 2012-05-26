@@ -11,7 +11,7 @@
 #include <src/renderer/Renderer.h>
 
 #include <src/utils/DebugManager.h>
-#include <src/utils/SettingsManager.h>
+#include <src/utils/SettingManager.h>
 
 #define _LOG_DEBUG_MESSAGE(verbose, msg, ...) \
 	{ \
@@ -68,7 +68,7 @@ namespace Identi3D
 				throw std::runtime_error(E_SYSTEM_CREATE_SKINMGR_FAILURE);
 			}
 
-			_confmgr = ntnew SettingsManager(_debugger);
+			_confmgr = ntnew SettingManager(_debugger);
 			if(_confmgr == NULL) {
 				throw std::runtime_error(E_SYSTEM_CREATE_CONFMGR_FAILURE);
 			}

@@ -31,7 +31,7 @@
 #include <src/utils/CPU.h>
 #include <src/utils/DebugManager.h>
 #include <src/utils/OptionTree.h>
-#include <src/utils/SettingsManager.h>
+#include <src/utils/SettingManager.h>
 
 #include <src/plugins/direct3d9/PluginDirect3D9.h>
 

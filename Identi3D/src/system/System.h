@@ -50,7 +50,7 @@ namespace Identi3D
 		SystemState		_state;
 
 		DebugManager	*_debugger;
-		SettingsManager *_confmgr;
+		SettingManager *_confmgr;
 		EventDispatcher	*_dispatcher;
 		SkinManager		*_skinmgr;
 
@@ -108,9 +108,9 @@ namespace Identi3D
 		}
 
 		/*
-		 * Get SettingsManager handle.
+		 * Get SettingManager handle.
 		 */
-		inline SettingsManager *getSettingsManager(void) const
+		inline SettingManager *getSettingManager(void) const
 		{
 			return _confmgr;
 		}

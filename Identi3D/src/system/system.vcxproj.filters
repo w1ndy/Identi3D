@@ -27,7 +27,7 @@
     <ClCompile Include="SettingsWindow.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PluginsManager.cc">
+    <ClCompile Include="PluginManager.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,10 +44,10 @@
     <ClInclude Include="SettingsWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PluginsManager.h">
+    <ClInclude Include="PluginTemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PluginTemplate.h">
+    <ClInclude Include="PluginManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

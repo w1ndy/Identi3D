@@ -91,12 +91,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="PluginDirect3D9.h" />
-    <ClInclude Include="Settings.h" />
+    <ClInclude Include="Setting.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PluginDirect3D9.cc" />
     <ClCompile Include="RenderDeviceInterface.cc" />
-    <ClCompile Include="Settings.cc" />
+    <ClCompile Include="Setting.cc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="direct3d9.debug.def" />

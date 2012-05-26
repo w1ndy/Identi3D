@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C++ Express 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "identi3d", "src\identi3d\identi3d.vcxproj", "{42D4A807-56DA-4917-9343-B73128299137}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1992210E-6253-4735-8E3D-CC641250B393} = {1992210E-6253-4735-8E3D-CC641250B393}
@@ -54,7 +54,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ext_resources", "src\ext_re
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{019E84E7-3572-4D3D-AC8A-FCFD2AF7AE0C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample_plugin", "sample_plugin\sample_plugin.vcxproj", "{F7C600F1-1C7B-4BB5-9CE0-46A7365BDAF3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample_plugin", "src\plugins\sample_plugin\sample_plugin.vcxproj", "{F7C600F1-1C7B-4BB5-9CE0-46A7365BDAF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

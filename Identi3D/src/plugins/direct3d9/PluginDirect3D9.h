@@ -8,7 +8,7 @@
 #define IDENTI3D_SRC_PLUGINS_DIRECT3D9_PLUGINDIRECT3D9_H
 
 #include <src/identi3d/General.h>
-#include <src/plugins/direct3d9/Settings.h>
+#include <src/plugins/direct3d9/Setting.h>
 #include <src/renderer/RenderDevice.h>
 #include <src/utils/DebugFrame.h>
 
@@ -34,7 +34,7 @@ namespace Identi3D
 		D3DPRESENT_PARAMETERS	_present_parameters;
 		D3DCOLOR				_clear_color;
 
-		Direct3D9SettingsManager _settings;
+		Direct3D9SettingManager _settings;
 		
 		bool _is_running;
 		bool _is_scene_running;

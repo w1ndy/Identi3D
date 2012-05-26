@@ -46,12 +46,12 @@ bool App::init(void)
 		}
 
 		// Test code:
-#if defined (PLUGINSMANAGER_TEST)
-		_plugmgr = ntnew PluginsManager(System::instance().getSettingsManager()->getOptionTree(),
+#if defined (PLUGINMANAGER_TEST)
+		_plugmgr = ntnew PluginManager(System::instance().getSettingManager()->getOptionTree(),
 			System::instance().getDebugManager());
 		if(!_plugmgr) throw std::exception();
 		_plugmgr->loadAllPlugin();
-#endif // PLUGINSMANAGER_TEST
+#endif // PLUGINMANAGER_TEST
 
 	} catch(...) {
 		System::instance().release();
@@ -74,9 +74,9 @@ int App::run(void)
 
 App::~App(void)
 {
-#if defined (PLUGINSMANAGER_TEST)
+#if defined (PLUGINMANAGER_TEST)
 	delete _plugmgr;
-#endif // PLUGINSMANAGER_TEST
+#endif // PLUGINMANAGER_TEST
 
 	System::instance().release();
 	delete _window;

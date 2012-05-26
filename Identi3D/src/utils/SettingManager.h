@@ -1,6 +1,6 @@
 //
-// File: SettingsManager.h
-// =======================
+// File: SettingManager.h
+// ======================
 // Load and save configuration on I/O level.
 //
 
@@ -14,7 +14,7 @@
 namespace Identi3D
 {
 
-	class __declspec(dllexport) SettingsManager : public DebugFrame
+	class __declspec(dllexport) SettingManager : public DebugFrame
 	{
 		friend class System;
 
@@ -23,16 +23,16 @@ namespace Identi3D
 		std::wstring _conf_path;
 
 	private:
-		SettingsManager(SettingsManager &mgr);
-		SettingsManager &operator=(SettingsManager &rhs);
+		SettingManager(SettingManager &mgr);
+		SettingManager &operator=(SettingManager &rhs);
 
 	private:
 		void saveElementRecursively(const OptionElement *elem, std::wofstream &fout);
 
 	public:
-		SettingsManager(DebugManager *debugger = NULL) 
+		SettingManager(DebugManager *debugger = NULL) 
 			: DebugFrame(debugger), _tree(debugger) {} ;
-		~SettingsManager(void);
+		~SettingManager(void);
 
 		/*
 		 * Load configuration from file.
@@ -69,4 +69,4 @@ namespace Identi3D
 
 };
 
-#endif // IDENTI3D_SRC_UTILS_SETTINGSMANAGER_H
+#endif // IDENTI3D_SRC_UTILS_SETTINGMANAGER_H

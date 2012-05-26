@@ -9,7 +9,7 @@
 
 #include <src/system/System.h>
 
-#include <src/utils/SettingsManager.h>
+#include <src/utils/SettingManager.h>
 
 namespace Identi3D
 {
@@ -30,8 +30,8 @@ namespace Identi3D
 		: DebugFrame(debugger), _render_device(NULL), _plugin_handle(NULL), _render_window(NULL)
 	{
 		_backend_type = RenderBackendType_NoDevice;
-		if(System::instance().getSettingsManager())
-			_global_option = System::instance().getSettingsManager()->getOptionTree();
+		if(System::instance().getSettingManager())
+			_global_option = System::instance().getSettingManager()->getOptionTree();
 	}
 
 	Renderer::~Renderer(void)
@@ -104,8 +104,8 @@ namespace Identi3D
 		RenderBackendType rbt;
 
 		if(!_global_option) {
-			if(System::instance().getSettingsManager())
-				_global_option = System::instance().getSettingsManager()->getOptionTree();
+			if(System::instance().getSettingManager())
+				_global_option = System::instance().getSettingManager()->getOptionTree();
 			else
 				return false;
 		}

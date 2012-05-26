@@ -22,7 +22,7 @@
 namespace Identi3D
 {
 	
-	class Direct3D9SettingsManager
+	class Direct3D9SettingManager
 	{
 	private:
 		OptionTree	*_tree;
@@ -44,8 +44,8 @@ namespace Identi3D
 
 	public:
 		
-		Direct3D9SettingsManager(void) { reset(); };
-		~Direct3D9SettingsManager(void) {} ;
+		Direct3D9SettingManager(void) { reset(); };
+		~Direct3D9SettingManager(void) {} ;
 
 		/*
 		 * Reset and load default values.

@@ -8,7 +8,7 @@
 #include <src/utils/CPU.h>
 #include <src/utils/DebugManager.h>
 #include <src/utils/OptionTree.h>
-#include <src/utils/SettingsManager.h>
+#include <src/utils/SettingManager.h>
 #include <src/utils/ResourceManager.h>
 using namespace Identi3D;
 

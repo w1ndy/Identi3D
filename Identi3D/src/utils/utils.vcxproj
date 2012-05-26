@@ -93,7 +93,7 @@
     <ClInclude Include="DebugManager.h" />
     <ClInclude Include="OptionTree.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="SettingsManager.h" />
+    <ClInclude Include="SettingManager.h" />
     <ClInclude Include="Singleton.h" />
   </ItemGroup>
   <ItemGroup>
@@ -102,7 +102,7 @@
     <ClCompile Include="DebugManager.cc" />
     <ClCompile Include="OptionTree.cc" />
     <ClCompile Include="ResourceManager.cc" />
-    <ClCompile Include="SettingsManager.cc" />
+    <ClCompile Include="SettingManager.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

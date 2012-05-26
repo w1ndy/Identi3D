@@ -15,30 +15,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PluginDirect3D9.h">
+    <ClInclude Include="SchemeInterpreter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Setting.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="RenderDeviceInterface.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PluginDirect3D9.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Setting.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="direct3d9.debug.def">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="direct3d9.release.def">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

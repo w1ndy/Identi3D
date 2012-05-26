@@ -1,9 +1,9 @@
 //
-// File: Settings.cc
-// =================
+// File: Setting.cc
+// ================
 //
 
-#include <src/plugins/direct3d9/Settings.h>
+#include <src/plugins/direct3d9/Setting.h>
 
 #include <src/utils/OptionTree.h>
 #include <src/utils/DebugManager.h>
@@ -19,7 +19,7 @@ namespace Identi3D
 		return (str == VALUE_TRUE);
 	}
 
-	void Direct3D9SettingsManager::reset()
+	void Direct3D9SettingManager::reset()
 	{
 		_is_windowed				= D3DSETTINGS_DEFAULT_WINDOWED;
 		_is_hardware_accelerated	= D3DSETTINGS_DEFAULT_HARDWAREACCELERATED;
@@ -31,7 +31,7 @@ namespace Identi3D
 		_refresh_rate	= D3DSETTINGS_DEFAULT_REFRESH_RATE;
 	}
 
-	bool Direct3D9SettingsManager::read(OptionTree *tree)
+	bool Direct3D9SettingManager::read(OptionTree *tree)
 	{
 		if(tree == NULL) return false;
 
@@ -64,7 +64,7 @@ namespace Identi3D
 		return true;
 	}
 
-	bool Direct3D9SettingsManager::write(void)
+	bool Direct3D9SettingManager::write(void)
 	{
 		if(_tree == NULL) return false;
 

@@ -1,21 +1,21 @@
 //
-// File: SettingsManager.cc
+// File: SettingManager.cc
 // ========================
 //
 
-#include <src/utils/SettingsManager.h>
+#include <src/utils/SettingManager.h>
 #include <src/utils/DebugManager.h>
 #include <src/identi3d/IdentiExceptions.h>
 
 namespace Identi3D
 {
 
-	SettingsManager::~SettingsManager(void)
+	SettingManager::~SettingManager(void)
 	{
 		if(_tree.getStatus()) save();
 	}
 
-	bool SettingsManager::load(const std::wstring &path)
+	bool SettingManager::load(const std::wstring &path)
 	{
 		std::wifstream fin;
 		int correct, total;
@@ -49,12 +49,12 @@ namespace Identi3D
 		return true;
 	}
 
-	bool SettingsManager::reload(void)
+	bool SettingManager::reload(void)
 	{
 		return load(_conf_path);
 	}
 
-	bool SettingsManager::save(void)
+	bool SettingManager::save(void)
 	{
 		std::wofstream fout;
 
@@ -71,7 +71,7 @@ namespace Identi3D
 		return true;
 	}
 
-	void SettingsManager::saveElementRecursively(const OptionElement *elem, std::wofstream &fout)
+	void SettingManager::saveElementRecursively(const OptionElement *elem, std::wofstream &fout)
 	{
 		OptionIterator iter((elem == NULL) ? _tree.getRootIterator() : elem->child);
 		

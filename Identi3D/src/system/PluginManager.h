@@ -1,11 +1,11 @@
 //
-// File: PluginsManager.h
-// ======================
+// File: PluginManager.h
+// =====================
 // Provide plugins management
 //
 
-#ifndef IDENTI3D_SRC_SYSTEM_PLUGINSMANAGER_H
-#define IDENTI3D_SRC_SYSTEM_PLUGINSMANAGER_H
+#ifndef IDENTI3D_SRC_SYSTEM_PLUGINMANAGER_H
+#define IDENTI3D_SRC_SYSTEM_PLUGINMANAGER_H
 
 #include "PluginTemplate.h"
 
@@ -24,15 +24,15 @@ namespace Identi3D
 		HMODULE handle;
 	};
 
-	class PluginsManager : public DebugFrame
+	class PluginManager : public DebugFrame
 	{
 	private:
 		std::vector<PluginInfo> _plugins;
 		std::wstring _location;
 
 	public:
-		PluginsManager(OptionTree *global_conf, DebugManager *debugger = NULL);
-		~PluginsManager(void);
+		PluginManager(OptionTree *global_conf, DebugManager *debugger = NULL);
+		~PluginManager(void);
 
 		/*
 		 * Load all plugins under the location.
@@ -62,4 +62,4 @@ namespace Identi3D
 
 }
 
-#endif // IDENTI3D_SRC_SYSTEM_PLUGINSMANAGER_H
+#endif // IDENTI3D_SRC_SYSTEM_PLUGINMANAGER_H
