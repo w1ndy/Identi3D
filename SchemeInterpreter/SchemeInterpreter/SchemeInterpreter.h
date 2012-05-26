@@ -13,7 +13,7 @@
 class SchemeInterpreter
 {
 private:
-	bool preprocess(const wchar_t *input, SyntaxTree &tree);
+	int preprocess(const wchar_t *input, int pos, SyntaxTree &tree);
 	bool evaluate(const SyntaxTree &tree);
 
 public:
